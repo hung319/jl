@@ -1,23 +1,27 @@
-# Sử dụng image Python chính thức làm nền tảng
-FROM python:3.9-slim-buster
+# Sử dụng hình ảnh cơ sở chính thức của Python
+FROM python:3.9-slim
 
-# Cài đặt các gói hệ thống cần thiết (ví dụ: hỗ trợ build các gói Python)
-RUN apt-get update && apt-get install -y \
+# Cập nhật danh sách các gói và cài đặt một số công cụ cần thiết
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
     build-essential \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# Tạo thư mục làm việc trong container
+# Tạo một thư mục làm việc
 WORKDIR /app
 
-# Sao chép file yêu cầu của dự án (nếu có) vào container
-# COPY requirements.txt .
+# Cài đặt JupyterLab
+RUN pip install --no-cache-dir jupyterlab
 
-# Cài đặt JupyterLab và các thư viện Python cần thiết
-RUN pip install --no-cache-dir jupyterlab numpy pandas matplotlib
+# Mở cổng 8000
+EXPOSE 8000
 
-# Mở cổng 8888 để truy cập JupyterLab từ bên ngoài
-EXPOSE 8888
+# Tạo thư mục cho Jupyter Notebook
+RUN mkdir -p /root/.jupyter
 
-# Câu lệnh chạy JupyterLab khi container được khởi động
-CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=0", "--allow-root"]
+# Thêm file cấu hình để JupyterLab chạy trên cổng 8000
+RUN echo "c.NotebookApp.port = 8000" >> /root/.jupyter/jupyter_notebook_config.py
 
+# Lệnh để chạy JupyterLab khi container khởi động
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--allow-root"]
