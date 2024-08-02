@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # Sao chép file yêu cầu của dự án (nếu có) vào container
-COPY requirements.txt .
+# COPY requirements.txt .
 
 # Cài đặt JupyterLab và các thư viện Python cần thiết
 RUN pip install --no-cache-dir jupyterlab numpy pandas matplotlib
