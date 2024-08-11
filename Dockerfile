@@ -10,10 +10,10 @@ RUN pip install --upgrade pip
 RUN pip install jupyterlab 
 
 # Cài đặt thêm các thư viện cần thiết (nếu có)
-# RUN pip install <tên_thư_viện_1> <tên_thư_viện_2> ...
+RUN pip install <tên_thư_viện_1> <tên_thư_viện_2> ...
 
 # Cấu hình Jupyter Lab (tuỳ chọn)
-# COPY jupyter_notebook_config.py /home/jovyan/.jupyter/jupyter_notebook_config.py
+COPY jupyter_notebook_config.py /home/jovyan/.jupyter/jupyter_notebook_config.py
 
 # Tạo thư mục làm việc 
 WORKDIR /workspace
