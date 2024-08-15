@@ -1,15 +1,18 @@
-FROM ubuntu:latest
+# Sử dụng image chính thức của Python làm image gốc
+FROM python:3.9
 
-# Cài đặt các gói cần thiết
-RUN apt-get update && \
-    apt-get install -y python3 python3-pip && \
-    pip3 install jupyterlab
+# Cập nhật danh sách package và cài đặt pip
+RUN apt-get update && apt-get install -y \
+    python3-pip
 
-# Thiết lập thư mục làm việc là root
+# Cài đặt JupyterLab
+RUN pip install jupyterlab
+
+# Tạo thư mục làm việc
 WORKDIR /root
 
-# Mở cổng 8888
+# Mở cổng 8888 để truy cập JupyterLab
 EXPOSE 8888
 
-# Chạy Jupyter Lab khi container khởi động, bao gồm các bước thiết lập
-CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root", "--NotebookApp.token=11042006"]
+# Khởi động JupyterLab khi container chạy và đặt token đăng nhập
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root", "--NotebookApp.token='11042006'"]
