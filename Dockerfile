@@ -1,18 +1,19 @@
-FROM python:3.9-slim
+# Sử dụng hình ảnh cơ sở Ubuntu
+FROM ubuntu:latest
 
 # Cài đặt các gói cần thiết
-RUN apt-get update && apt-get install -y \
-    git \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get upgrade && \
+    apt-get install -y python3-pip && \
+    pip3 install jupyterlab && \
+    apt-get install sudo
 
-# Cài đặt JupyterLab
-RUN pip install jupyterlab
-
-# Tạo thư mục làm việc
+# Tạo một thư mục làm thư mục làm việc và thiết lập môi trường cho Jupyter
 WORKDIR /workspace
+ENV PATH="/root/.local/bin:${PATH}"
 
 # Mở cổng cho JupyterLab
 EXPOSE 8888
 
-# Khởi chạy JupyterLab với token đã chỉ định
+# Chạy Jupyter
 CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root", "--NotebookApp.token=11042006"]
