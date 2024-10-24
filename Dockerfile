@@ -1,5 +1,5 @@
 # Sử dụng image chính thức của Python làm image gốc
-FROM python:3.9
+FROM python:latest
 
 # Cập nhật danh sách package và cài đặt pip
 RUN apt-get update && apt-get install -y \
