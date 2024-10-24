@@ -12,9 +12,6 @@ RUN apt-get update && \
 # Cài đặt JupyterLab
 RUN pip install jupyterlab
 
-# Cấu hình JupyterLab
-COPY jupyter_notebook_config.py /etc/jupyter/
-
 # Tạo thư mục làm việc
 WORKDIR /root
 
