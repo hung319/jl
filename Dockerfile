@@ -13,9 +13,6 @@ RUN pip install --upgrade pip && \
 # Tạo thư mục làm việc cho Jupyter Notebook
 WORKDIR /home/jovyan/work
 
-# Cấu hình Jupyter Notebook
-COPY jupyter_notebook_config.py /root/.jupyter/
-
 # Mở cổng 8888 cho Jupyter Notebook
 EXPOSE 8888
 
