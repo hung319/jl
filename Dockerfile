@@ -1,22 +1,23 @@
-FROM jupyter/base-notebook
-
-USER root
+FROM python:3.9
 
 # Cài đặt các gói cần thiết
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    nodejs npm \
-    && \
-    rm -rf /var/lib/apt/lists/*
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
-# Cài đặt JupyterLab
-RUN pip install jupyterlab
+# Cài đặt Jupyter Notebook và các thư viện
+RUN pip install --upgrade pip && \
+    pip install notebook numpy pandas scipy matplotlib scikit-learn
 
-# Tạo thư mục làm việc
-WORKDIR /root
+# Tạo thư mục làm việc cho Jupyter Notebook
+WORKDIR /home/jovyan/work
 
-# Mở cổng 8888 cho JupyterLab
+# Cấu hình Jupyter Notebook
+COPY jupyter_notebook_config.py /root/.jupyter/
+
+# Mở cổng 8888 cho Jupyter Notebook
 EXPOSE 8888
 
-# Khởi động JupyterLab
-CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root", "--NotebookApp.token='11042006'"]
+# Khởi động Jupyter Notebook
+CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]
