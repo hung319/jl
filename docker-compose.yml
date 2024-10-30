@@ -1,0 +1,35 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./workspace:/root
+    environment:
+      - JUPYTER_TOKEN=11042006
+    restart: unless-stopped
+
+---
+# Dockerfile
+FROM python:latest
+
+# Cập nhật danh sách package và cài đặt pip
+RUN apt-get update && apt-get install -y \
+    python3-pip
+
+# Cài đặt JupyterLab
+RUN pip install jupyterlab
+
+# Tạo thư mục làm việc
+WORKDIR /root
+
+# Mở cổng 8888 để truy cập JupyterLab
+EXPOSE 8888
+
+# Khởi động JupyterLab khi container chạy
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root", "--NotebookApp.token=${JUPYTER_TOKEN}"]
