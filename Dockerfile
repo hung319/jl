@@ -1,9 +1,9 @@
 # Sử dụng image chính thức của Python làm image gốc
 FROM python:latest
 
-# Cập nhật danh sách package và cài đặt pip
+# Cập nhật danh sách package và cài đặt pip, sudo
 RUN apt-get update && apt-get install -y \
-    python3-pip
+    sudo python3-pip
 
 # Cài đặt JupyterLab
 RUN pip install jupyterlab
